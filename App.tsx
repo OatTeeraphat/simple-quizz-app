@@ -1,20 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
+import AppNavigator from '@/routes/AppNavigator';
+
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello Mother fucker Hi There !! Hello Helllppppp</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppNavigator />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
