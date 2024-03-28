@@ -7,7 +7,6 @@ export function shuffleQuestionAndAnswer(list) {
 
 }
 
-
 export function shuffleList(list) {
     return list
         .map(value => ({ value, sort: Math.random() }))
@@ -29,4 +28,10 @@ export function shuffleAnswersInList(list) {
 
     return list;
   }
-  
+
+
+export function UUID () {
+  let a = Date.now().toString(36)
+  console.log(a)
+  return a
+}

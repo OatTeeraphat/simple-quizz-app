@@ -1,22 +1,33 @@
-import React from 'react';
+import React ,{ useReducer, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-interface QuestionProps {
+
+interface Props {
+  questionIndex: number;
   question: string;
   answers: string[];
-  onSelectAnswer: (answerIndex: number) => void;
+  selectedAnswerIndex : number | false;
+  onSelectAnswer: (answerIndex: number, index: number) => void;
 }
 
-const Question: React.FC<QuestionProps> = ({ question, answers, onSelectAnswer }) => {
+const Question: React.FC<Props> = ({ questionIndex, question, answers, selectedAnswerIndex, onSelectAnswer }) => {
+  
   return (
 
-    <View style={styles.container} key={question}>
+    <View style={styles.container} key={questionIndex}>
 
       <Text style={styles.question}>{question}</Text>
 
-      {answers.map((answer, index) => (
+      {answers.map((answer, answerIndex) => (
 
-          <TouchableOpacity key={index} style={styles.answerButton} onPress={( ) => onSelectAnswer(index) }>
+          <TouchableOpacity 
+            key={answerIndex} 
+            onPress={() => onSelectAnswer(questionIndex, answerIndex)}
+            style={[
+              styles.answerButton, 
+              (answerIndex === selectedAnswerIndex) ? styles.answerButtonSelect : false
+            ]} 
+          >
             <Text>{answer}</Text>
           </TouchableOpacity>
 
@@ -41,6 +52,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     borderRadius: 5,
   },
+  answerButtonSelect : {
+    backgroundColor: '#aaa',
+  }
 });
 
 export default Question;

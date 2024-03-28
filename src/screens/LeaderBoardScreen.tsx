@@ -1,10 +1,28 @@
-import React from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const LeaderboardScreen: React.FC = () => {
+import { LeaderBoardContext } from '@/store/LeaderBoardProvider'
+import { loadLeaderBoardFromStorage } from '@/repositories/LeaderBoardRepository'
+
+
+const LeaderBoardScreen: React.FC = () => {
+
+  const [state, setStage] = useState( [] )
+
+  useEffect(() => {
+
+    loadLeaderBoardFromStorage()
+        .then((value) => {
+          console.log(value)
+          setStage(value)
+        })
+
+  }, [])
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Leaderboard</Text>
+      <Text style={styles.title}>LeaderBoard</Text>
+      <Text>{JSON.stringify(state)}</Text>
     </View>
   );
 };
@@ -19,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LeaderboardScreen;
+export default LeaderBoardScreen;
