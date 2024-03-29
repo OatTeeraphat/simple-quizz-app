@@ -1,8 +1,7 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, {useEffect, useContext, useState, useRef} from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { QuizzContext } from '@/store/QuizzProvider'
-import { loadLeaderBoardFromStorage } from '@/repositories/LeaderBoardRepository'
 
 interface Props {
   navigation: any,
@@ -11,8 +10,15 @@ interface Props {
 const WelcomeScreen: React.FC<Props> = ({navigation}) => {
 
   const { state, dispatch } = useContext( QuizzContext )
+  const [ name, setName ] = useState('')
+  
+  const todoInput = useRef<any>();
 
-  const [name, setName] = useState('')
+  useEffect( () => {
+    
+    dispatch({ type: 'RESET_QUIZZ' })
+    
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -20,19 +26,23 @@ const WelcomeScreen: React.FC<Props> = ({navigation}) => {
         <Text style={styles.title}>🤟 QuizzApp</Text>
         <TextInput
           style={styles.inputName}
-          placeholder="กรอกชื่อผู้เล่น"
+          placeholder="กรอกชื่อผู้เล่น" 
           onChangeText={text => setName(text)}
+          ref={todoInput}
         />
         <TouchableOpacity 
-          onPress={() => dispatch({ type: 'INIT_QUIZZ', payload: name, navigation : navigation })}
+          onPress={() => (
+            dispatch({ type: 'INIT_QUIZZ', payload: name, navigation : navigation }),
+            todoInput.current.clear()
+          )}
           style={styles.submitButton} 
         >
           <Text style={styles.submitButtonTxt}>Let's Start</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.welcomePanelBar}>
+      <View style={styles.welcomePanelBar}> 
         <TouchableOpacity
-          onPress={() => navigation.navigate('LeaderBoard') }
+          onPress={() => (navigation.navigate('LeaderBoard')) }
         >
           <Text>🏆 Leader Board</Text>
         </TouchableOpacity>
@@ -49,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems : 'center',
     backgroundColor: "#FFFFFF",
     padding : 15,
-    paddingBottom: 60
+    paddingBottom: 45
   },
   welcomeEntry : {
     width : '100%',

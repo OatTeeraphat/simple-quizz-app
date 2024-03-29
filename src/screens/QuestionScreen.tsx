@@ -17,7 +17,7 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
   const { state, dispatch } = useContext( QuizzContext )
 
   useEffect(() => {
-
+    
     dispatch({ type: 'GET_SHUFFLE_QUESTION', payload: questions })
 
   }, [])

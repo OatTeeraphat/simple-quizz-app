@@ -12,7 +12,7 @@ type QuizzState = {
 }
 
 type QuizzActionsType = {
-  type : 'INIT_QUIZZ' | 'GET_SHUFFLE_QUESTION' | 'SELECT_ANSWER' | 'SUBMIT_QUIZZ' 
+  type : 'RESET_QUIZZ' | 'INIT_QUIZZ' | 'GET_SHUFFLE_QUESTION' | 'SELECT_ANSWER' | 'SUBMIT_QUIZZ' 
   payload ?: any // TODO,
   navigation ?: any
 }
@@ -37,6 +37,10 @@ function QuizzReducer(state: QuizzState, action: QuizzActionsType) {
 
   switch (action.type) {
 
+    case 'RESET_QUIZZ' :
+      console.log('RESET_QUIZZ')
+      return { ...state, id : '', name : '', score: 0, question: [] }
+
     case 'INIT_QUIZZ' :
       action.navigation.navigate('Question')
       return { ...state, name: action.payload, score: 0, id: UUID() }
@@ -53,12 +57,11 @@ function QuizzReducer(state: QuizzState, action: QuizzActionsType) {
       let sum_score = state.question.filter(it => it.correctAnswerIndex === it.selectedAnswerIndex)
 
       // save to leader board
-      saveToLeaderBoardStorage({ id: state.id, name : 'oat', score: sum_score.length })
+      saveToLeaderBoardStorage({ id: state.id, name : state.name, score: sum_score.length })
       .then(() => {
         action.navigation.navigate('LeaderBoard')
-        return { ...state, score: sum_score.length }
+        return  { ...state, id : '', name : '', score: 0, question: [] }
       })
-
 
     default:
       return state;
