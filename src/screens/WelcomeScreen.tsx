@@ -9,7 +9,7 @@ interface Props {
 
 const WelcomeScreen: React.FC<Props> = ({navigation}) => {
 
-  const { state, dispatch } = useContext( QuizzContext )
+  const { _, dispatch } = useContext( QuizzContext )
   const [ name, setName ] = useState('')
   
   const todoInput = useRef<any>();

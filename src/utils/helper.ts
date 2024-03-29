@@ -20,9 +20,9 @@ export function shuffleAnswersInList(list) {
     list.forEach(item => {
       
       const _correctAnswer = item.answers[item.correctAnswerIndex]
-      //console.log(item, correctAnswer)
       item.answers = shuffleList(item.answers)
       item.correctAnswerIndex = item.answers.indexOf(_correctAnswer)
+      item.selectedAnswerIndex = false
 
     });
 
@@ -31,7 +31,5 @@ export function shuffleAnswersInList(list) {
 
 
 export function UUID () {
-  let a = Date.now().toString(36)
-  console.log(a)
-  return a
+  return Date.now().toString(36)
 }

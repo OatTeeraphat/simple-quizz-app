@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react'
 import { StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Text } from 'react-native'
-import { saveToLeaderBoardStorage } from '@/repositories/LeaderBoardRepository'
 
 import Question from '@/components/Question'
 import { QuizzContext } from '@/store/QuizzProvider'
@@ -17,24 +16,19 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
   const { state, dispatch } = useContext( QuizzContext )
 
   useEffect(() => {
-    
+    // set question with suffled questions order and answers
     dispatch({ type: 'GET_SHUFFLE_QUESTION', payload: questions })
-
   }, [])
 
   // Handle correct answer
   const handleSelectAnswer = (selectedQuestionIdx: number, selectedAnswerIdx: number) => {
-
     dispatch({ type: 'SELECT_ANSWER', payload: [selectedQuestionIdx, selectedAnswerIdx] })
-
   };
 
+  // Handle on submit quizz
   const handleSubmitAnswer = () => {
-
     dispatch({ type: 'SUBMIT_QUIZZ', navigation : navigation })    
-
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,12 +49,19 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
         ))}
 
           <TouchableOpacity 
-            onPress={() => handleSubmitAnswer()}
+            onPress={() => state.count == 20 ? handleSubmitAnswer() : true}
             style={[
-              styles.submitButton
+              styles.submitButton,
+              state.count == 20 ? styles.submitButtonActive : null
             ]} 
           >
-            <Text style={styles.submitButtonTxt}>ส่งคำตอบ</Text>
+            <Text 
+            style={[
+              styles.submitButtonTxt,
+              state.count == 20 ? styles.submitButtonActive : null
+            ]} >
+              ส่งคำตอบ
+            </Text>
 
           </TouchableOpacity>
 
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     textAlign : 'center'
   },
   submitButtonTxt : {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign : 'center',
   },

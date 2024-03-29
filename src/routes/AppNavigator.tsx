@@ -13,7 +13,8 @@ import LeaderBoardScreen from '@/screens/LeaderBoardScreen';
 const Stack = createNativeStackNavigator();
 
 const ScreenOption = {
-  headerBackVisible : false
+  headerBackVisible:false,
+  headerLeft: () => null
 }
 
 const AppNavigator: React.FC = () => {
@@ -23,8 +24,8 @@ const AppNavigator: React.FC = () => {
       <Stack.Navigator initialRouteName="Welcome" >
 
         {/* Screens */}
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Question" component={QuestionScreen} />
+        <Stack.Screen name="Welcome" component={WelcomeScreen} options={ScreenOption} />
+        <Stack.Screen name="Question" component={QuestionScreen} options={ScreenOption} />
         <Stack.Screen name="LeaderBoard" component={LeaderBoardScreen} options={ScreenOption} />
         
       </Stack.Navigator>

@@ -9,13 +9,15 @@ interface Props {
 
 const LeaderBoardScreen: React.FC<Props> = ({navigation}) => {
 
-  const [leaderBoard, setLeaderBoard] = useState( [] )
+  const [leaderBoard, setLeaderBoard] = useState([])
+  const [lastedUserId, setlastedUserId] = useState('')
 
   useEffect(() => {
 
     loadLeaderBoardFromStorage()
         .then((value) => {
-          setLeaderBoard(value.sort((a, b) => b.score - a.score))
+          setlastedUserId(value[value.length - 1].id) // find lasted session
+          setLeaderBoard(value.sort((a, b) => b.score - a.score)) // sort orders
         })
 
   }, [])
@@ -33,7 +35,7 @@ const LeaderBoardScreen: React.FC<Props> = ({navigation}) => {
 
               <View style={styles.scrollItemLeft}>
                 <Text style={styles.scrollItemIndex} >{idx+1}</Text>
-                <Text style={styles.scrollItemName} >{idx == 0 ? '🏆 ' : ''}{it.name}</Text>
+                <Text style={styles.scrollItemName} >{idx == 0 ? '🏆 ' : ''}{it.name}{lastedUserId == it.id ? '(👏 Yours)' : ''}</Text>
                 
               </View>
 
