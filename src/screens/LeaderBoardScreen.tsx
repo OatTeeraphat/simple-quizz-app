@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#FFFFFF",
-    padding: 15,
     paddingBottom: 60
   },
   scrollItem:{
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     height: 25,
     justifyContent : 'center',
     backgroundColor: '#999',
-    borderRadius: 25,
+    borderRadius: 50,
     paddingTop : 3,
     fontWeight : 'bold',
     textAlign: 'center'
@@ -115,8 +114,10 @@ const styles = StyleSheet.create({
     fontWeight : 'bold',
   },
   leaderBoard : {
+    flex : 1,
     width : '100%',
     alignItems : 'center',
+    backgroundColor : '#ff0'
   },
 
   welcomePanelBar : {

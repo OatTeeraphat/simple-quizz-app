@@ -39,11 +39,7 @@ function QuizzReducer(state: QuizzState, action: QuizzActionsType) {
 
   switch (action.type) {
 
-    case 'RESET_QUIZZ' :
-      return { ...state, id : '', name : '', score: 0, count: 0, question: [] }
-
     case 'INIT_QUIZZ' :
-      
       action.navigation.navigate('Question')
       return { ...state, name: action.payload, score: 0, count: 0, id: UUID() }
 
@@ -64,7 +60,6 @@ function QuizzReducer(state: QuizzState, action: QuizzActionsType) {
       saveToLeaderBoardStorage({ id: state.id, name : state.name, score: sum_score.length })
       .then(() => {
         action.navigation.navigate('LeaderBoard')
-        return { ...state, id : '', name : '', score: 0, count: 0, question: [] }
       })
 
     default:

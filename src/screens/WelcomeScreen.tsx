@@ -14,12 +14,6 @@ const WelcomeScreen: React.FC<Props> = ({navigation}) => {
   
   const todoInput = useRef<any>();
 
-  useEffect( () => {
-    
-    dispatch({ type: 'RESET_QUIZZ' })
-    
-  }, [])
-
   return (
     <View style={styles.container}>
       <View style={styles.welcomeEntry}>
