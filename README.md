@@ -1,9 +1,10 @@
 
-## Simple Quizz App with React Hook Store
+## Simple Quizz App 🏆
 Quizz App is a simple React Native application developed with TypeScript using Expo. It serves as an example of how to utilize React's useContext and useReducer Hooks as a replacement for store management in React applications.
 
-### Demo
-![](https://github.com/OatTeeraphat/simple-quizz-app/demo.gif)
+<p align="center">
+  <img src="https://github.com/OatTeeraphat/simple-quizz-app/blob/main/demo.gif?raw=true" style="border: 1px solid gray; border-radius : 10px" width="250"/>
+</p>
 
 ### Instructions
 1. Clone the repository to your local machine.
@@ -21,4 +22,6 @@ Quizz App is a simple React Native application developed with TypeScript using E
     npm run start
     ```
 6.  you can run your app on an iOS or Android simulator, or scan the QR code with the **Expo Go** application on your mobile device to view the app live (It is available on both the Android Play Store and iOS App Store.).
+
+ 
 
