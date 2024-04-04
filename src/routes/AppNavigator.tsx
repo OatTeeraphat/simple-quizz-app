@@ -13,8 +13,8 @@ import LeaderBoardScreen from '@/screens/LeaderBoardScreen';
 const Stack = createNativeStackNavigator();
 
 const ScreenOption = {
-  headerBackVisible:false,
-  headerLeft: () => null
+  // headerBackVisible:false,
+  // headerLeft: () => null
 }
 
 const AppNavigator: React.FC = () => {

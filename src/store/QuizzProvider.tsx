@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react'
+import React, { useReducer, createContext } from 'react'
 
 import { saveToLeaderBoardStorage } from '@/repositories/LeaderBoardRepository'
 import { shuffleQuestionAndAnswer, UUID } from '@/utils/helper'
@@ -14,7 +14,7 @@ type QuizzState = {
 
 type QuizzActionsType = {
   type : 'RESET_QUIZZ' | 'INIT_QUIZZ' | 'GET_SHUFFLE_QUESTION' | 'SELECT_ANSWER' | 'SUBMIT_QUIZZ' 
-  payload ?: any // TODO,
+  payload ?: any // TODO
   navigation ?: any
 }
 
@@ -35,12 +35,11 @@ const QuizzState = {
 }
 
 
-function QuizzReducer(state: QuizzState, action: QuizzActionsType) {
+const QuizzReducer = (state: QuizzState, action: QuizzActionsType) => {
 
   switch (action.type) {
 
     case 'INIT_QUIZZ' :
-      action.navigation.navigate('Question')
       return { ...state, name: action.payload, score: 0, count: 0, id: UUID() }
 
     case 'GET_SHUFFLE_QUESTION':
@@ -48,16 +47,16 @@ function QuizzReducer(state: QuizzState, action: QuizzActionsType) {
 
     case 'SELECT_ANSWER':
       
-      let sum_select = state.question.filter(it => it.selectedAnswerIndex !== false)      
+      let sumSelect = state.question.filter(it => it.selectedAnswerIndex !== false)      
       state.question[action.payload[0]].selectedAnswerIndex = action.payload[1]
       
-      return { ...state, question: [...state.question], count: sum_select.length + 1 }
+      return { ...state, question: [...state.question], count: sumSelect.length + 1 }
 
     case 'SUBMIT_QUIZZ':
 
-      let sum_score = state.question.filter(it => it.correctAnswerIndex === it.selectedAnswerIndex)
+      let sumScore = state.question.filter(it => it.correctAnswerIndex === it.selectedAnswerIndex)
       
-      saveToLeaderBoardStorage({ id: state.id, name : state.name, score: sum_score.length })
+      saveToLeaderBoardStorage({ id: state.id, name : state.name, score: sumScore.length })
       .then(() => {
         action.navigation.navigate('LeaderBoard')
       })

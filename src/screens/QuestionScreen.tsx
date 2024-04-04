@@ -16,7 +16,6 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
   const { state, dispatch } = useContext( QuizzContext )
 
   useEffect(() => {
-    // set question with suffled questions order and answers
     dispatch({ type: 'GET_SHUFFLE_QUESTION', payload: questions })
   }, [])
 
@@ -27,7 +26,7 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
 
   // Handle on submit quizz
   const handleSubmitAnswer = () => {
-    dispatch({ type: 'SUBMIT_QUIZZ', navigation : navigation })    
+    dispatch({ type: 'SUBMIT_QUIZZ', navigation : navigation })
   };
 
   return (
@@ -49,16 +48,16 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
         ))}
 
           <TouchableOpacity 
-            onPress={() => state.count == 20 ? handleSubmitAnswer() : true}
+            onPress={() => state.count == 1 ? handleSubmitAnswer() : true}
             style={[
               styles.submitButton,
-              state.count == 20 ? styles.submitButtonActive : null
+              state.count == 1 ? styles.submitButtonActive : null
             ]} 
           >
             <Text 
             style={[
               styles.submitButtonTxt,
-              state.count == 20 ? styles.submitButtonActive : null
+              state.count == 1 ? styles.submitButtonActive : null
             ]} >
               ส่งคำตอบ
             </Text>

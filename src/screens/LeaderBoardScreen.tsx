@@ -15,7 +15,7 @@ const LeaderBoardScreen: React.FC<Props> = ({navigation}) => {
   useEffect(() => {
 
     loadLeaderBoardFromStorage()
-        .then((value) => {
+        .then(async (value) => {
           setlastedUserId(value[value.length - 1].id) // find lasted session
           setLeaderBoard(value.sort((a, b) => b.score - a.score)) // sort orders
         })

@@ -11,8 +11,16 @@ const WelcomeScreen: React.FC<Props> = ({navigation}) => {
 
   const { _, dispatch } = useContext( QuizzContext )
   const [ name, setName ] = useState('')
-  
+
   const todoInput = useRef<any>();
+
+  const handleInitButton = async () => {
+
+    await dispatch({ type: 'INIT_QUIZZ', payload: name, navigation : navigation })
+    // router to question
+    navigation.navigate('Question')
+
+  }
 
   return (
     <View style={styles.container}>
@@ -26,7 +34,7 @@ const WelcomeScreen: React.FC<Props> = ({navigation}) => {
         />
         <TouchableOpacity 
           onPress={() => (
-            dispatch({ type: 'INIT_QUIZZ', payload: name, navigation : navigation }),
+            handleInitButton(),
             todoInput.current.clear()
           )}
           style={styles.submitButton} 
