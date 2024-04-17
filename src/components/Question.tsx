@@ -6,7 +6,7 @@ interface Props {
   questionIndex: number;
   question: string;
   answers: string[];
-  selectedAnswerIndex : number | false;
+  selectedAnswerIndex : number | boolean;
   onSelectAnswer: (answerIndex: number, index: number) => void;
 }
 

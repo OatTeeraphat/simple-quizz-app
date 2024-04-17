@@ -1,11 +1,11 @@
-import React, { useEffect, useContext } from 'react'
+import React from 'react'
 import { StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Text } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux';
 
 import Question from '@/components/Question'
-import { QuizzContext } from '@/store/QuizzProvider'
 
-import { questions } from '@/utils/question'
-
+import { quizzSelectAnswer, submitSessionQuizz } from '@/store/quizz/quizzSlice';
+import { QuizzState } from '@/models/quizzModel'
 
 interface Props {
   navigation: any,
@@ -13,20 +13,27 @@ interface Props {
 
 const QuestionScreen: React.FC<Props> = ({ navigation }) => {
 
-  const { state, dispatch } = useContext( QuizzContext )
+  const dispatch = useDispatch<any>();
+  const query : QuizzState = useSelector<any>(state => state.questions)
 
-  useEffect(() => {
-    dispatch({ type: 'GET_SHUFFLE_QUESTION', payload: questions })
-  }, [])
-
-  // Handle correct answer
+  // // Handle select answer
   const handleSelectAnswer = (selectedQuestionIdx: number, selectedAnswerIdx: number) => {
-    dispatch({ type: 'SELECT_ANSWER', payload: [selectedQuestionIdx, selectedAnswerIdx] })
+
+    dispatch(
+      quizzSelectAnswer({
+        selectedQuestionIdx : selectedQuestionIdx, 
+        selectedAnswerIdx : selectedAnswerIdx
+      })
+    )
+
   };
 
-  // Handle on submit quizz
+  // // Handle on submit quizz
   const handleSubmitAnswer = () => {
-    dispatch({ type: 'SUBMIT_QUIZZ', navigation : navigation })
+
+    dispatch(submitSessionQuizz())
+    .then( () => navigation.navigate('LeaderBoard'))
+
   };
 
   return (
@@ -34,11 +41,12 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
 
       <ScrollView style={styles.wrapper}>
 
-        {state.question.map((it, idx) => (
 
+        {query.question.map((it, idx) => (
+            
             <Question
               key={idx}
-              questionIndex={idx}
+              questionIndex={it.index}
               question={it.question}
               answers={it.answers}
               selectedAnswerIndex={it.selectedAnswerIndex}
@@ -48,16 +56,16 @@ const QuestionScreen: React.FC<Props> = ({ navigation }) => {
         ))}
 
           <TouchableOpacity 
-            onPress={() => state.count == 1 ? handleSubmitAnswer() : true}
+            onPress={() => handleSubmitAnswer()}
             style={[
               styles.submitButton,
-              state.count == 1 ? styles.submitButtonActive : null
+              query.count == 20 ? styles.submitButtonActive : null
             ]} 
           >
             <Text 
             style={[
               styles.submitButtonTxt,
-              state.count == 1 ? styles.submitButtonActive : null
+              query.count == 20 ? styles.submitButtonActive : null
             ]} >
               ส่งคำตอบ
             </Text>
