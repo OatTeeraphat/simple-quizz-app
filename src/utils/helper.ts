@@ -1,12 +1,3 @@
-export function shuffleQuestionAndAnswer(list) {
-
-    list = shuffleList(list)
-    list = shuffleAnswersInList(list)
-
-    return list
-
-}
-
 export function shuffleList(list) {
     return list
         .map(value => ({ value, sort: Math.random() }))
@@ -17,17 +8,34 @@ export function shuffleList(list) {
   
 export function shuffleAnswersInList(list) {
 
-    list.forEach(item => {
+    const q_list = list.map(item => {
       
-      const _correctAnswer = item.answers[item.correctAnswerIndex]
-      item.answers = shuffleList(item.answers)
-      item.correctAnswerIndex = item.answers.indexOf(_correctAnswer)
-      item.selectedAnswerIndex = false
+      let _correctAnswer = item.answers[item.correctAnswerIndex]
+      let _shuffleList = shuffleList(item.answers)
+
+      return {
+        ...item,
+        ...{ 
+          answers : _shuffleList,
+          correctAnswerIndex : _shuffleList.indexOf(_correctAnswer),
+          selectedAnswerIndex : false
+        }
+      }
 
     });
 
-    return list;
-  }
+    return q_list;
+
+}
+
+export function shuffleQuestionAndAnswer(list) {
+
+  list = shuffleList(list)
+  list = shuffleAnswersInList(list)
+
+  return list
+
+}
 
 
 export function UUID () {

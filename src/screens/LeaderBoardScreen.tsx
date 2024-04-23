@@ -1,7 +1,9 @@
 import React, {useEffect, useContext, useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { loadLeaderBoardFromStorage } from '@/repositories/LeaderBoardRepository'
+import { LeaderBoard } from '@/models/leaderBoardModel'
 
 interface Props {
   navigation: any,
@@ -9,16 +11,15 @@ interface Props {
 
 const LeaderBoardScreen: React.FC<Props> = ({navigation}) => {
 
+  const query : LeaderBoard[] = useSelector<any>(state => state.leaderBoard)
+
   const [leaderBoard, setLeaderBoard] = useState([])
   const [lastedUserId, setlastedUserId] = useState('')
 
   useEffect(() => {
 
-    loadLeaderBoardFromStorage()
-        .then((value) => {
-          setlastedUserId(value[value.length - 1].id) // find lasted session
-          setLeaderBoard(value.sort((a, b) => b.score - a.score)) // sort orders
-        })
+    setlastedUserId(query[query.length - 1].id)
+    setLeaderBoard([...query].sort((a, b) => b.score - a.score))
 
   }, [])
 

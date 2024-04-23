@@ -1,26 +1,19 @@
 import React, {useEffect, useContext, useState, useRef} from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { QuizzContext } from '@/store/QuizzProvider'
+import { useDispatch, useSelector } from 'react-redux';
+import { newSessionQuizz } from '@/store/quizz/quizzSlice';
+
+// import { QuizzContext } from '@/store/QuizzProvider'
 
 interface Props {
   navigation: any,
 }
 
-const WelcomeScreen: React.FC<Props> = ({navigation}) => {
+const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 
-  const { _, dispatch } = useContext( QuizzContext )
-  const [ name, setName ] = useState('')
-
+  const dispatch = useDispatch<any>();
   const todoInput = useRef<any>();
-
-  const handleInitButton = async () => {
-
-    await dispatch({ type: 'INIT_QUIZZ', payload: name, navigation : navigation })
-    // router to question
-    navigation.navigate('Question')
-
-  }
 
   return (
     <View style={styles.container}>
@@ -29,14 +22,16 @@ const WelcomeScreen: React.FC<Props> = ({navigation}) => {
         <TextInput
           style={styles.inputName}
           placeholder="กรอกชื่อผู้เล่น" 
-          onChangeText={text => setName(text)}
           ref={todoInput}
         />
         <TouchableOpacity 
-          onPress={() => (
-            handleInitButton(),
-            todoInput.current.clear()
-          )}
+          onPress={() =>
+            dispatch(newSessionQuizz(todoInput.current.value))
+            .then(() => { 
+              navigation.navigate('Question')
+              todoInput.current.clear()
+            })
+          }
           style={styles.submitButton} 
         >
           <Text style={styles.submitButtonTxt}>Let's Start</Text>
@@ -44,7 +39,7 @@ const WelcomeScreen: React.FC<Props> = ({navigation}) => {
       </View>
       <View style={styles.welcomePanelBar}> 
         <TouchableOpacity
-          onPress={() => (navigation.navigate('LeaderBoard')) }
+          onPress={() => (navigation.navigate('LeaderBoard'))}
         >
           <Text>🏆 Leader Board</Text>
         </TouchableOpacity>
